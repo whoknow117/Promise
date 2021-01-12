@@ -18,3 +18,12 @@
   height: 60px;
   margin: 10px;
 }
+
+
+.item {
+  text-align: left;
+
+}
+.item div {
+  border: 1px solid silver;
+}

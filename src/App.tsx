@@ -1,8 +1,20 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState, useEffect} from 'react';
 import Axios from "axios";
 import './App.css';
+import {RootStateType} from "./redux/redux-store";
 
-function App() {
+
+
+type AppPropsType = {
+
+    store: RootStateType
+}
+
+function App(props: AppPropsType) {
+
+    let state = props.store.getState();
+
+
 
     const [movieName, setMovieName] = useState<string>('');
     const [review, setReview] = useState<string>('');
@@ -15,25 +27,49 @@ function App() {
             movieReview: review
         }).then(() => {
             alert('successful insert')
+
         })
+        setReview("")
+        setMovieName("")
     };
+    const setTitle = (e:ChangeEvent<HTMLInputElement>) => {
+        setMovieName(e.currentTarget.value)
+    }
+    const setText = (e:ChangeEvent<HTMLInputElement>) => {
+        setReview(e.currentTarget.value)
+    }
+
+    let divStyle = {
+        display: 'grid',
+        gridTemplateColumns: "200px 200px",
+
+
+    }
 
 
     return (
 
 
+
+
         <div className="App">
+
+            <div>
+                {state.reviews.reviews.map(el => {
+                    return <div className="item" style={divStyle}>
+                        <div >{el.movieName}</div>
+                        <div >{el.movieReview}</div>
+                    </div>
+                })}
+            </div>
+
             <h1>CRUD APP</h1>
 
             <div className="form">
                 <label>Movie name:</label>
-                <input type="text" name='movieName' onChange={(e) => {
-                    setMovieName(e.currentTarget.value)
-                }}/>
+                <input type="text" value={movieName} name='movieName' onChange={setTitle}/>
                 <label>Review:</label>
-                <input type="text" name='review' onChange={(e) => {
-                    setReview(e.currentTarget.value)
-                }}/>
+                <input type="text" value={review} name='review' onChange={setText}/>
                 <button onClick={submitReview}>submit</button>
             </div>
 
