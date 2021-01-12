@@ -18,7 +18,13 @@ function App(props: AppPropsType) {
 
     const [movieName, setMovieName] = useState<string>('');
     const [review, setReview] = useState<string>('');
-    console.log(movieName);
+
+
+    useEffect(() => {
+        Axios.get('http://localhost:3001/api/get').then((response) => {
+            console.log(response)
+        })
+    })
 
 
     const submitReview = () => {
